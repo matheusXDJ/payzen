@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
         await prisma.user.update({
           where: { id: userId },
           data: {
+            stripeCustomerId: session.customer as string,
             stripeSubscriptionId: session.subscription as string,
             subscriptionStatus: "ACTIVE",
             subscriptionStartDate: new Date(),
