@@ -65,5 +65,14 @@
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+}
+
+/* Touch refinements for mobile */
+@media (max-width: 640px) {
+  button, a {
+    @apply min-h-[44px] min-w-[44px]; /* Minimum recommended touch target size */
   }
 }
