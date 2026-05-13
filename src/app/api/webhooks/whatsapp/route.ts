@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/dist/server/web/spec-extension/request";
+export const dynamic = 'force-dynamic';
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 const WHATSAPP_VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN!;
