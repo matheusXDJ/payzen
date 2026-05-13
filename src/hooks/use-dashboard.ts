@@ -1,3 +1,4 @@
+"use client";
 import { useQuery } from "@tanstack/react-query";
 
 export function useDashboardOverview(filter: "month" | "year" = "month") {
