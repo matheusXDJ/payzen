@@ -11,6 +11,7 @@ import { useCreateTransaction } from "@/hooks/use-transactions";
 import { useCategories } from "@/hooks/use-categories";
 import { useCards } from "@/hooks/use-cards";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface TransactionFormProps {
   onSuccess?: () => void;
@@ -18,6 +19,7 @@ interface TransactionFormProps {
 
 export function TransactionForm({ onSuccess }: TransactionFormProps) {
   const createMutation = useCreateTransaction();
+  const { toast } = useToast();
   
   const form = useForm<CreateTransactionInput>({
     resolver: zodResolver(createTransactionSchema),
@@ -39,9 +41,17 @@ export function TransactionForm({ onSuccess }: TransactionFormProps) {
     try {
       await createMutation.mutateAsync(data);
       form.reset();
+      toast({
+        title: "Transaction saved",
+        description: "Your transaction has been recorded.",
+      });
       onSuccess?.();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to save transaction. Please try again.",
+      });
     }
   };
 

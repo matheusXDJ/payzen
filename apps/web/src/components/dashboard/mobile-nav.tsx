@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/cards", label: "Cards" },
   { href: "/recurring", label: "Recurring" },
   { href: "/settings/whatsapp", label: "WhatsApp" },
+  { href: "/settings/billing", label: "Billing" },
 ];
 
 export function MobileNav() {

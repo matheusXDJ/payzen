@@ -2,14 +2,18 @@
 
 import { useState } from "react";
 import { useDashboardOverview } from "@/hooks/use-dashboard";
+import { useSubscription } from "@/hooks/use-subscription";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, Legend } from "recharts";
 import { format } from "date-fns";
+import Link from "next/link";
+import { Progress } from "@/components/ui/progress"; // Assuming progress exists or I will create it
 
 export default function DashboardPage() {
   const [filter, setFilter] = useState<"month" | "year">("month");
   const { data, isLoading } = useDashboardOverview(filter);
+  const { data: sub } = useSubscription();
 
   if (isLoading) {
     return <div className="py-12 text-center text-muted-foreground">Loading dashboard...</div>;
@@ -18,24 +22,44 @@ export default function DashboardPage() {
   if (!data) return null;
 
   const { overview, expensesByCategory, recentTransactions } = data;
+  const isFree = sub?.status !== "ACTIVE";
+  const usagePercent = sub?.limit ? (sub.usage / sub.limit) * 100 : 0;
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-        <div className="space-x-2">
-          <Button 
-            variant={filter === "month" ? "default" : "outline"} 
-            onClick={() => setFilter("month")}
-          >
-            This Month
-          </Button>
-          <Button 
-            variant={filter === "year" ? "default" : "outline"} 
-            onClick={() => setFilter("year")}
-          >
-            This Year
-          </Button>
+        <div className="flex items-center gap-2">
+          {isFree && sub && (
+            <Card className="bg-primary/5 border-primary/10 px-4 py-2 flex items-center gap-3">
+              <div className="text-xs">
+                <p className="font-semibold text-primary">Free Plan</p>
+                <p className="text-muted-foreground">{sub.usage}/{sub.limit} transactions</p>
+              </div>
+              <div className="w-20">
+                <Progress value={usagePercent} className="h-1.5" />
+              </div>
+              <Link href="/pricing">
+                <Button size="sm" variant="ghost" className="h-7 text-xs px-2">Upgrade</Button>
+              </Link>
+            </Card>
+          )}
+          <div className="space-x-2">
+            <Button 
+              variant={filter === "month" ? "default" : "outline"} 
+              size="sm"
+              onClick={() => setFilter("month")}
+            >
+              Month
+            </Button>
+            <Button 
+              variant={filter === "year" ? "default" : "outline"} 
+              size="sm"
+              onClick={() => setFilter("year")}
+            >
+              Year
+            </Button>
+          </div>
         </div>
       </div>
 

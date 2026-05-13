@@ -62,6 +62,12 @@ export default async function DashboardLayout({ children }: { children: ReactNod
             >
               WhatsApp
             </Link>
+            <Link
+              href="/settings/billing"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            >
+              Billing
+            </Link>
           </nav>
           <div className="ml-auto flex items-center space-x-4">
             <UserNav />

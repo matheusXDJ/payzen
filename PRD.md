@@ -217,5 +217,5 @@
 - [x] **16.2 Checkout Flow** (rota /api/checkout criada)
 - [x] **16.3 Webhook Handlers** (checkout, subscription updated/deleted, payment failed)
 - [x] **16.4 Customer Portal** (rota /api/portal criada)
-- [x] **16.5 Feature Gates** (limite de 100 transacões/mês para plano Free)
-- [ ] **16.6 Premium Features** (implementar após launch)
+- [x] **16.5 Feature Gates** (limite de 100 transacões/mês para plano Free implementado)
+- [x] **16.6 Premium Features** (Checkout, Portal e UI de Billing implementados)
